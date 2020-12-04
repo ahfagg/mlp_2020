@@ -111,30 +111,30 @@ class KFoldHolisticCrossValidation():
         self.best_param_inds = None
 
         
-        def get_data(self, all_Xfolds, all_yfolds, nfolds, rotation, trainsize):
-            '''
-            Determines the fold indices for the train, val, and test set given
-            the total number of folds, rotation, and training set size.
-            Use these fold indices to get the training, validation, and test sets
-            from all_xfolds and all_folds
-            '''
-            # Detrmine fold indices
-            trainfolds = (np.arange(trainsize) + rotation) % nfolds
-            valfold = (nfolds - 2 + rotation) % nfolds
-            testfold = (valfold + 1) % nfolds
+    def get_data(self, all_Xfolds, all_yfolds, nfolds, rotation, trainsize):
+        '''
+        Determines the fold indices for the train, val, and test set given
+        the total number of folds, rotation, and training set size.
+        Use these fold indices to get the training, validation, and test sets
+        from all_xfolds and all_folds
+        '''
+        # Detrmine fold indices
+        trainfolds = (np.arange(trainsize) + rotation) % nfolds
+        valfold = (nfolds - 2 + rotation) % nfolds
+        testfold = (valfold + 1) % nfolds
 
-            X = np.concatenate(np.take(all_Xfolds, trainfolds))
-            y = np.concatenate(np.take(all_yfolds, trainfolds))
+        X = np.concatenate(np.take(all_Xfolds, trainfolds))
+        y = np.concatenate(np.take(all_yfolds, trainfolds))
 
-            # Construct validation set
-            Xval = all_Xfolds[valfold]
-            yval = all_yfolds[valfold]
+        # Construct validation set
+        Xval = all_Xfolds[valfold]
+        yval = all_yfolds[valfold]
 
-            # Construct test set
-            Xtest = all_Xfolds[testfold]
-            ytest = all_yfolds[testfold]
+        # Construct test set
+        Xtest = all_Xfolds[testfold]
+        ytest = all_yfolds[testfold]
 
-            return X, y, Xval, yval, Xtest, ytest
+        return X, y, Xval, yval, Xtest, ytest
         
     def perform_cross_validation(self, all_Xfolds, all_yfolds, 
                                  trainsize, verbose=0):
